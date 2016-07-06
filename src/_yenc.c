@@ -32,19 +32,19 @@ static PyObject* decode(PyObject* self, PyObject* args)
 {
     Py_buffer buffer;
     PyObject* retval;
-    uint8_t* decoded;
-    uint8_t ch;
+    char* decoded;
+    char ch;
     size_t i = 0, j = 0;
 
     if (!PyArg_ParseTuple(args, "y*", &buffer)) return NULL;
     if ((decoded = (char*) PyMem_Malloc(buffer.len)) == NULL) return PyErr_NoMemory();
 
-    for (i = 0, ch = ((uint8_t*)buffer.buf)[i]; i < buffer.len; ch = ((uint8_t*)buffer.buf)[++i])
+    for (i = 0, ch = ((char*)buffer.buf)[i]; i < buffer.len; ch = ((char*)buffer.buf)[++i])
     {
         if (0x0A == ch || 0x0D == ch) continue;
 
         if (0x3D == ch)
-            ch = ((uint8_t*)buffer.buf)[++i] - 106;
+            ch = ((char*)buffer.buf)[++i] - 106;
         else
             ch -= 42;
 
@@ -52,6 +52,6 @@ static PyObject* decode(PyObject* self, PyObject* args)
     }
 
     retval = PyBytes_FromStringAndSize(decoded, j);
-    Py_DECREF(decoded);
+    PyMem_Free(decoded);
     return retval;
 }
