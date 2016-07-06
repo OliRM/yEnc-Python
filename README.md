@@ -1,5 +1,5 @@
 # yEnc-Python
-Barely functional yEnc library, featuring only the ability to decode, and barely legible source code.
+Disfunctional yEnc library, featuring only the ability to decode. Now with 30% less memory leak.
 
 ### Setup
 ```
